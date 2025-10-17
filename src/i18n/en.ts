@@ -1,0 +1,237 @@
+export const en = {
+  common: {
+    tryAgain: "Try Again",
+    returnHome: "Return Home",
+    contactSupport: "If this problem persists, please contact support",
+    signOut: "Sign Out",
+  },
+  drivers: {
+    searchPlaceholder: "Search User",
+    statusPlaceholder: "Driver Status",
+    filters: {
+      all: "All",
+      online: "Online",
+      offline: "Offline",
+    },
+    signal: {
+      excellent: "Excellent",
+      good: "Good",
+      poor: "Poor",
+      none: "No Signal",
+    },
+    labels: {
+      active: "Active",
+      speed: "Speed",
+      noData: "No Data",
+      locationOf: (name: string) => `${name}'s Location`,
+      loadingMap: "Loading map...",
+      kmh: "km/h",
+    },
+  },
+  bookingOptions: {
+    types: {
+      sedan: "Sedan",
+      suv: "SUV",
+      pickup: "Pickup",
+      van: "Van",
+    },
+    models: {
+      toyota_camry: "Toyota Camry",
+      hyundai_tucson: "Hyundai Tucson",
+      ford_f150: "Ford F-150",
+      kia_carnival: "Kia Carnival",
+    },
+  },
+  booking: {
+    title: "Booking Form",
+    carType: "Car Type",
+    carModel: "Car Model",
+    plateNumber: "Plate Number",
+    fromCity: "From City",
+    toCity: "To City",
+    paymentMethod: "Payment Method",
+    payment: {
+      card: "Card",
+      apple_pay: "Apple Pay",
+      mada: "Mada",
+    },
+    submit: "Submit Booking",
+    submitting: "Submitting...",
+    created: "Order created successfully. Your Order ID:",
+  },
+  tracking: {
+    title: "Order Tracking",
+    placeholder: "Enter Order ID (e.g., ORD-1001)",
+    track: "Track",
+    loading: "Loading...",
+    order: "Order",
+    status: "Status",
+    from: "From",
+    to: "To",
+  },
+  orders: {
+    title: "My Orders",
+    refresh: "Refresh",
+    table: {
+      id: "Order ID",
+      car: "Car Type",
+      from: "From",
+      to: "To",
+      price: "Price",
+      status: "Status",
+    },
+  },
+  admin: {
+    title: "Admin Dashboard",
+    table: {
+      id: "Order ID",
+      car: "Car",
+      from: "From",
+      to: "To",
+      status: "Status",
+      actions: "Actions",
+    },
+    actions: {
+      receive: "Receive",
+      in_transit: "In Transit",
+      delivered: "Delivered",
+      rejected: "Reject",
+    },
+  },
+  sidebar: {
+    groups: {
+      tracking: "TRACKING",
+      management: "MANAGEMENT",
+      admin: "ADMIN",
+      reports: "REPORTS",
+    },
+    items: {
+      home: "Home",
+      liveMaps: "Live Maps",
+      activeRoutes: "Active Routes",
+      tracking: "Tracking",
+      drivers: "Drivers",
+      vehicles: "Vehicles",
+      trips: "Trips",
+      booking: "Booking",
+      myOrders: "My Orders",
+      adminDashboard: "Admin Dashboard",
+      tripActivity: "Trip Activity",
+      tripAlerts: "Trip Alerts",
+      fuelMaintenance: "Fuel & Maintenance",
+    },
+  },
+  navbar: {
+    searchButton: "Search (Ctrl+/)",
+    searchPlaceholder: "Type a command or search...",
+    quickSettingsHeader: "QUICK SETTINGS",
+    managementHeader: "MANAGEMENT",
+    quickSettings: {
+      home: "Home",
+      tripsSummary: "Trips Summary",
+      list: "List",
+      driverList: "Driver List",
+    },
+    management: {
+      fleetManagement: "Fleet Management",
+      driverManagement: "Driver Management",
+      tripManagement: "Trip Management",
+      routeManagement: "Route Management",
+    },
+  },
+  notifications: {
+    title: "Notifications",
+    markAllRead: "Mark All as Read",
+    noNotifications: "No notifications",
+    types: {
+      status_change: "Status Change",
+      location_update: "Location Update",
+      delivery_alert: "Delivery Alert",
+      pickup_alert: "Pickup Alert"
+    },
+    messages: {
+      order_received: "Your order has been received",
+      order_in_transit: "Your order is in transit",
+      order_delivered: "Your order has been delivered",
+      location_updated: "Order location has been updated"
+    }
+  },
+  dashboard: {
+    title: "Dashboard",
+    cards: {
+      driverAnalytics: "Driver Analytics",
+      performance: "Performance",
+      location: "Location",
+      fleet: "Fleet",
+      tripTracking: "Trip Tracking"
+    }
+  },
+  status: {
+    pending: "Pending",
+    received: "Received",
+    in_transit: "In Transit",
+    delivered: "Delivered",
+    rejected: "Rejected"
+  },
+  cities: {
+    riyadh: "Riyadh",
+    jeddah: "Jeddah",
+    dammam: "Dammam",
+    mecca: "Mecca",
+    medina: "Medina",
+    khobar: "Khobar",
+    taif: "Taif",
+    buraidah: "Buraidah",
+    tabuk: "Tabuk",
+    hail: "Hail"
+  },
+  forms: {
+    customerInfo: "Customer Information",
+    shipmentDetails: "Shipment Details",
+    vehicleSelection: "Vehicle Selection",
+    paymentInfo: "Payment Information",
+    orderSummary: "Order Summary",
+    name: "Name",
+    phone: "Phone Number",
+    email: "Email",
+    address: "Address",
+    weight: "Weight",
+    dimensions: "Dimensions",
+    description: "Description",
+    estimatedCost: "Estimated Cost",
+    next: "Next",
+    previous: "Previous",
+    confirm: "Confirm",
+    cancel: "Cancel"
+  },
+  trackingDetails: {
+    customerInfo: "Customer Information",
+    driverInfo: "Driver Information",
+    estimatedDelivery: "Estimated Delivery",
+    timeline: "Timeline",
+    currentLocation: "Current Location",
+    vehicleModel: "Vehicle Model",
+    plateNumber: "Plate Number"
+  },
+  adminDashboard: {
+    title: "Admin Dashboard",
+    statistics: "Statistics",
+    totalOrders: "Total Orders",
+    pendingOrders: "Pending Orders",
+    inTransitOrders: "In Transit Orders",
+    deliveredOrders: "Delivered Orders",
+    searchOrders: "Search Orders",
+    filterByStatus: "Filter by Status",
+    updateStatus: "Update Status",
+    updateLocation: "Update Location",
+    statusUpdated: "Status updated successfully",
+    locationUpdated: "Location updated successfully"
+  },
+  errors: {
+    genericTitle: "Oops! Something went wrong",
+    genericMessage: "An unexpected error occurred in the application.",
+    orderNotFound: "Order not found",
+    networkError: "Network error",
+    validationError: "Validation error"
+  },
+};

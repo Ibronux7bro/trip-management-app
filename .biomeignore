@@ -1,0 +1,16 @@
+# Ignore dependencies
+node_modules
+.next
+
+# Ignore build outputs
+dist
+build
+
+# Ignore generated files and locks
+package-lock.json
+
+# Ignore public assets
+public
+
+# Ignore pre-formatted UI components
+src/components/ui

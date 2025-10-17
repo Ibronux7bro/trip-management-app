@@ -1,0 +1,237 @@
+export const ar = {
+  common: {
+    tryAgain: "حاول مرة أخرى",
+    returnHome: "العودة إلى الرئيسية",
+    contactSupport: "إذا استمرت المشكلة، يرجى التواصل مع الدعم",
+    signOut: "تسجيل الخروج",
+  },
+  drivers: {
+    searchPlaceholder: "ابحث عن مستخدم",
+    statusPlaceholder: "حالة السائق",
+    filters: {
+      all: "الكل",
+      online: "متصل",
+      offline: "غير متصل",
+    },
+    signal: {
+      excellent: "ممتاز",
+      good: "جيد",
+      poor: "ضعيف",
+      none: "لا توجد إشارة",
+    },
+    labels: {
+      active: "نشط",
+      speed: "السرعة",
+      noData: "لا توجد بيانات",
+      locationOf: (name: string) => `موقع ${name}`,
+      loadingMap: "جاري تحميل الخريطة...",
+      kmh: "كم/س",
+    },
+  },
+  bookingOptions: {
+    types: {
+      sedan: "سيدان",
+      suv: "دفع رباعي",
+      pickup: "بيك أب",
+      van: "فان",
+    },
+    models: {
+      toyota_camry: "تويوتا كامري",
+      hyundai_tucson: "هيونداي توسان",
+      ford_f150: "فورد F-150",
+      kia_carnival: "كيا كارنيفال",
+    },
+  },
+  booking: {
+    title: "نموذج الحجز",
+    carType: "نوع السيارة",
+    carModel: "الموديل",
+    plateNumber: "رقم اللوحة",
+    fromCity: "المدينة المرسلة منها",
+    toCity: "الوجهة",
+    paymentMethod: "طريقة الدفع",
+    payment: {
+      card: "بطاقة",
+      apple_pay: "Apple Pay",
+      mada: "مدى",
+    },
+    submit: "إرسال الحجز",
+    submitting: "جاري الإرسال...",
+    created: "تم إنشاء الطلب بنجاح. رقم الطلب:",
+  },
+  tracking: {
+    title: "تتبع الطلب",
+    placeholder: "أدخل رقم الطلب (مثال: ORD-1001)",
+    track: "تتبّع",
+    loading: "جارٍ التحميل...",
+    order: "الطلب",
+    status: "الحالة",
+    from: "من",
+    to: "إلى",
+  },
+  orders: {
+    title: "طلباتي",
+    refresh: "تحديث",
+    table: {
+      id: "رقم الطلب",
+      car: "نوع السيارة",
+      from: "من",
+      to: "إلى",
+      price: "السعر",
+      status: "الحالة",
+    },
+  },
+  admin: {
+    title: "لوحة الإدارة",
+    table: {
+      id: "رقم الطلب",
+      car: "السيارة",
+      from: "من",
+      to: "إلى",
+      status: "الحالة",
+      actions: "الإجراءات",
+    },
+    actions: {
+      receive: "استلام",
+      in_transit: "جاري النقل",
+      delivered: "تم التوصيل",
+      rejected: "رفض",
+    },
+  },
+  sidebar: {
+    groups: {
+      tracking: "التتبع",
+      management: "الإدارة",
+      admin: "المدير",
+      reports: "التقارير",
+    },
+    items: {
+      home: "الرئيسية",
+      liveMaps: "الخرائط الحية",
+      activeRoutes: "المسارات النشطة",
+      tracking: "تتبع الطلب",
+      drivers: "السائقون",
+      vehicles: "المركبات",
+      trips: "الرحلات",
+      booking: "الحجز",
+      myOrders: "طلباتي",
+      adminDashboard: "لوحة الإدارة",
+      tripActivity: "نشاط الرحلات",
+      tripAlerts: "تنبيهات الرحلات",
+      fuelMaintenance: "الوقود والصيانة",
+    },
+  },
+  navbar: {
+    searchButton: "بحث (Ctrl+/)",
+    searchPlaceholder: "اكتب أمراً أو ابحث...",
+    quickSettingsHeader: "إعدادات سريعة",
+    managementHeader: "الإدارة",
+    quickSettings: {
+      home: "الرئيسية",
+      tripsSummary: "ملخص الرحلات",
+      list: "القائمة",
+      driverList: "قائمة السائقين",
+    },
+    management: {
+      fleetManagement: "إدارة الأسطول",
+      driverManagement: "إدارة السائقين",
+      tripManagement: "إدارة الرحلات",
+      routeManagement: "إدارة المسارات",
+    },
+  },
+  notifications: {
+    title: "الإشعارات",
+    markAllRead: "تحديد الكل كمقروء",
+    noNotifications: "لا توجد إشعارات",
+    types: {
+      status_change: "تغيير الحالة",
+      location_update: "تحديث الموقع",
+      delivery_alert: "تنبيه التسليم",
+      pickup_alert: "تنبيه الاستلام"
+    },
+    messages: {
+      order_received: "تم استلام طلبك",
+      order_in_transit: "طلبك في الطريق",
+      order_delivered: "تم تسليم طلبك",
+      location_updated: "تم تحديث موقع الطلب"
+    }
+  },
+  dashboard: {
+    title: "لوحة التحكم",
+    cards: {
+      driverAnalytics: "تحليلات السائقين",
+      performance: "الأداء",
+      location: "الموقع",
+      fleet: "الأسطول",
+      tripTracking: "تتبع الرحلات"
+    }
+  },
+  status: {
+    pending: "في الانتظار",
+    received: "تم الاستلام",
+    in_transit: "في الطريق",
+    delivered: "تم التسليم",
+    rejected: "مرفوض"
+  },
+  cities: {
+    riyadh: "الرياض",
+    jeddah: "جدة",
+    dammam: "الدمام",
+    mecca: "مكة المكرمة",
+    medina: "المدينة المنورة",
+    khobar: "الخبر",
+    taif: "الطائف",
+    buraidah: "بريدة",
+    tabuk: "تبوك",
+    hail: "حائل"
+  },
+  forms: {
+    customerInfo: "معلومات العميل",
+    shipmentDetails: "تفاصيل الشحنة",
+    vehicleSelection: "اختيار المركبة",
+    paymentInfo: "معلومات الدفع",
+    orderSummary: "ملخص الطلب",
+    name: "الاسم",
+    phone: "رقم الهاتف",
+    email: "البريد الإلكتروني",
+    address: "العنوان",
+    weight: "الوزن",
+    dimensions: "الأبعاد",
+    description: "الوصف",
+    estimatedCost: "التكلفة المقدرة",
+    next: "التالي",
+    previous: "السابق",
+    confirm: "تأكيد",
+    cancel: "إلغاء"
+  },
+  trackingDetails: {
+    customerInfo: "معلومات العميل",
+    driverInfo: "معلومات السائق",
+    estimatedDelivery: "الوقت المتوقع للتسليم",
+    timeline: "الجدول الزمني",
+    currentLocation: "الموقع الحالي",
+    vehicleModel: "موديل المركبة",
+    plateNumber: "رقم اللوحة"
+  },
+  adminDashboard: {
+    title: "لوحة الإدارة",
+    statistics: "الإحصائيات",
+    totalOrders: "إجمالي الطلبات",
+    pendingOrders: "الطلبات المعلقة",
+    inTransitOrders: "الطلبات في الطريق",
+    deliveredOrders: "الطلبات المسلمة",
+    searchOrders: "البحث في الطلبات",
+    filterByStatus: "تصفية حسب الحالة",
+    updateStatus: "تحديث الحالة",
+    updateLocation: "تحديث الموقع",
+    statusUpdated: "تم تحديث الحالة بنجاح",
+    locationUpdated: "تم تحديث الموقع بنجاح"
+  },
+  errors: {
+    genericTitle: "عذراً! حدث خطأ",
+    genericMessage: "حدث خطأ غير متوقع في التطبيق.",
+    orderNotFound: "الطلب غير موجود",
+    networkError: "خطأ في الشبكة",
+    validationError: "خطأ في التحقق من البيانات"
+  },
+};
