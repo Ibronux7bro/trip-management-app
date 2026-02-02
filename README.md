@@ -227,3 +227,5 @@ The dashboard is fully responsive and optimized for:
 Created with ❤️ by Manjunath R
 
 For support or inquiries, please contact us through our [support portal](https://voyagerpro.netlify.app/support).
+#   t r i p - m a n a g e m e n t - a p p  
+ 
