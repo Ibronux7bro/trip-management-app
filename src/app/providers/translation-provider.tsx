@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useLayoutEffect, ReactNode } from 'react';
 import { translations, Language, getNestedTranslation } from '@/i18n/translations';
 
 interface TranslationContextType {
@@ -17,43 +17,52 @@ interface TranslationProviderProps {
 }
 
 export function TranslationProvider({ children }: TranslationProviderProps) {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>('en'); // Default to English
+  const [isReady, setIsReady] = useState(false);
 
-  // Load language from storage on mount
-  useEffect(() => {
+  // Load language from storage on mount using layout effect to avoid hydration mismatch
+  useLayoutEffect(() => {
     if (typeof window !== 'undefined') {
-      // Check both possible storage keys for backward compatibility
-      const savedLanguage = localStorage.getItem('language') || localStorage.getItem('trip-planner-locale') as Language;
+      const savedLanguage = (localStorage.getItem('language') || localStorage.getItem('trip-planner-locale')) as Language | null;
       if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'ar')) {
         setLanguage(savedLanguage);
       } else {
-        // Detect browser language
-        const browserLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
+        const browserLang = typeof navigator !== 'undefined' && navigator.language && navigator.language.startsWith('ar') ? 'ar' : 'en';
         setLanguage(browserLang);
       }
+      setIsReady(true);
     }
   }, []);
 
-  // Save language to storage when it changes
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Save to both keys for compatibility
-      localStorage.setItem('language', language);
-      localStorage.setItem('trip-planner-locale', language);
-      
-      // Update document direction and language
+  // Save language to storage and update document when it changes
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined' && isReady) {
+      // Persist the language
+      try {
+        localStorage.setItem('language', language);
+        localStorage.setItem('trip-planner-locale', language);
+      } catch (e) {
+        console.warn('Could not persist language to localStorage', e);
+      }
+
+      // Update document attributes synchronously before paint
       document.documentElement.lang = language;
       document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
-      
-      // Add RTL class for better CSS support
-      document.documentElement.classList.toggle('rtl', language === 'ar');
-      document.documentElement.classList.toggle('ltr', language === 'en');
-      
+      document.documentElement.classList.remove('rtl', 'ltr');
+      document.documentElement.classList.add(language === 'ar' ? 'rtl' : 'ltr');
+
       // Update document title
       const siteName = language === 'ar' ? 'نخبة النقل' : 'Nukhbat Al-Naql';
       document.title = siteName;
+
+      // Dispatch a languagechange event
+      try {
+        window.dispatchEvent(new Event('languagechange'));
+      } catch (e) {
+        // ignore
+      }
     }
-  }, [language]);
+  }, [language, isReady]);
 
   const t = (key: string): string => {
     try {

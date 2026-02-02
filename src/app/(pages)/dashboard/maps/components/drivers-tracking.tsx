@@ -97,10 +97,10 @@ export default function DriverTrackingDashboard() {
   };
 
   const getSignalStrengthText = (strength: number): string => {
-    if (strength > 3) return t?.drivers?.signal?.excellent ?? 'Excellent';
-    if (strength > 2) return t?.drivers?.signal?.good ?? 'Good';
-    if (strength > 0) return t?.drivers?.signal?.poor ?? 'Poor';
-    return t?.drivers?.signal?.none ?? 'No Signal';
+    if (strength > 3) return t('drivers.signal.excellent') || 'Excellent';
+    if (strength > 2) return t('drivers.signal.good') || 'Good';
+    if (strength > 0) return t('drivers.signal.poor') || 'Poor';
+    return t('drivers.signal.offline') || 'Offline';
   };
 
   const handleDriverSelect = (driverId: number): void => {
@@ -218,11 +218,11 @@ export default function DriverTrackingDashboard() {
               <div className="text-sm grid grid-cols-2 gap-2">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  <span>{t?.drivers?.labels?.active ?? 'Active'}</span>
+                  <span>{t('drivers.labels.active') || 'Active'}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <AlertCircle className="w-4 h-4" />
-                  <span>{driver.gpsData.speed ?? 0} {t?.drivers?.labels?.kmh ?? 'km/h'}</span>
+                  <span>{driver.gpsData.speed ?? 0} {t('drivers.labels.kmh') || 'km/h'}</span>
                 </div>
               </div>
             )}
@@ -276,7 +276,7 @@ export default function DriverTrackingDashboard() {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder={t?.drivers?.searchPlaceholder ?? 'Search User'}
+                placeholder={t('drivers.searchPlaceholder') || 'Search User'}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 bg-card border-border"
@@ -288,13 +288,13 @@ export default function DriverTrackingDashboard() {
                 onValueChange={setFilterStatus as (value: string) => void}
               >
                 <SelectTrigger className="w-full bg-card border-border">
-                  <SelectValue placeholder={t?.drivers?.statusPlaceholder ?? 'Driver Status'} />
+                  <SelectValue placeholder={t('drivers.statusPlaceholder') || 'Driver Status'} />
                 </SelectTrigger>
                 <SelectContent className="bg-card">
                   <SelectGroup className="bg-card">
-                    <SelectItem value="all">{t?.drivers?.filters?.all ?? 'All'}</SelectItem>
-                    <SelectItem value="online">{t?.drivers?.filters?.online ?? 'Online'}</SelectItem>
-                    <SelectItem value="offline">{t?.drivers?.filters?.offline ?? 'Offline'}</SelectItem>
+                    <SelectItem value="all">{t('drivers.filters.all') || 'All'}</SelectItem>
+                    <SelectItem value="online">{t('drivers.filters.online') || 'Online'}</SelectItem>
+                    <SelectItem value="offline">{t('drivers.filters.offline') || 'Offline'}</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -323,9 +323,7 @@ export default function DriverTrackingDashboard() {
         <Dialog open={isMapDialogOpen} onOpenChange={setIsMapDialogOpen}>
           <DialogContent className="p-4 max-w-[85dvw] h-fit bg-card rounded-md">
             <h6 className="text-sm font-medium text-left text-muted-foreground h-fit">
-              {t?.drivers?.labels?.locationOf
-                ? t.drivers.labels.locationOf(selectedDriverName)
-                : `${selectedDriverName}'s Location`}
+              {`${selectedDriverName}'s Location`}
             </h6>
             <div className="relative w-full h-[26rem] p-2 rounded-md">
               {renderMap()}

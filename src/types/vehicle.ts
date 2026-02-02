@@ -8,6 +8,10 @@ export interface Vehicle {
   model: string;
   year: number;
   status: VehicleStatus;
+  capacity?: number;
+  fuelType?: string;
+  mileage?: number;
+  driverId?: string;
   createdAt: string;
   updatedAt: string;
   maintenanceLogs?: MaintenanceLog[];

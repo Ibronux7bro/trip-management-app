@@ -23,19 +23,15 @@ export function LanguageToggle({
 
   const toggleLanguage = () => {
     const newLanguage = language === 'en' ? 'ar' : 'en';
-    console.log('Toggling language from', language, 'to', newLanguage);
-    setLanguage(newLanguage);
-    
-    // Force update document attributes
-    setTimeout(() => {
-      document.documentElement.lang = newLanguage;
-      document.documentElement.dir = newLanguage === 'ar' ? 'rtl' : 'ltr';
-      document.documentElement.classList.toggle('rtl', newLanguage === 'ar');
-      document.documentElement.classList.toggle('ltr', newLanguage === 'en');
-    }, 0);
+    console.log('🔄 Toggling language from', language, 'to', newLanguage);
     
     // Add smooth transition effect
     document.documentElement.style.transition = 'all 0.3s ease';
+    
+    // Update language state
+    setLanguage(newLanguage);
+    
+    // Clean up transition after animation
     setTimeout(() => {
       document.documentElement.style.transition = '';
     }, 300);
@@ -72,19 +68,15 @@ export function LanguageToggleCompact({ className }: { className?: string }) {
 
   const toggleLanguage = () => {
     const newLanguage = language === 'en' ? 'ar' : 'en';
-    console.log('Compact toggle: from', language, 'to', newLanguage);
-    setLanguage(newLanguage);
-    
-    // Force update document attributes
-    setTimeout(() => {
-      document.documentElement.lang = newLanguage;
-      document.documentElement.dir = newLanguage === 'ar' ? 'rtl' : 'ltr';
-      document.documentElement.classList.toggle('rtl', newLanguage === 'ar');
-      document.documentElement.classList.toggle('ltr', newLanguage === 'en');
-    }, 0);
+    console.log('🔄 Compact toggle: from', language, 'to', newLanguage);
     
     // Add smooth transition effect
     document.documentElement.style.transition = 'all 0.3s ease';
+    
+    // Update language state
+    setLanguage(newLanguage);
+    
+    // Clean up transition after animation
     setTimeout(() => {
       document.documentElement.style.transition = '';
     }, 300);

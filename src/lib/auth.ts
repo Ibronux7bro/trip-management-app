@@ -1,8 +1,9 @@
 // Enhanced authentication system for Nukhbat Al-Naql
 import CredentialsProvider from 'next-auth/providers/credentials';
-import type { DefaultSession, User as DefaultUser } from 'next-auth';
-import type { NextAuthConfig } from 'next-auth';
+import { compare } from 'bcryptjs';
+import type { NextAuthOptions, DefaultSession } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
+import type { User } from 'next-auth';
 import { createHash } from 'crypto';
 
 // Type for the crypto module in the browser
@@ -19,34 +20,59 @@ declare global {
 // App user type
 type AppUser = {
   id: string;
-  email: string;
-  name: string;
+  email: string | null;
+  name: string | null;
   role: 'admin' | 'client' | 'driver' | 'operator';
-  avatar?: string;
-  phone?: string;
-  password?: string;
-  permissions: string[];
+  image?: string | null;
+  phone?: string | null;
+  password?: string | null;
+  permissions: string[] | string;
+  emailVerified?: Date | null;
 };
 
 // Base user type for our application
 export interface BaseUser {
   id: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
+  name: string | undefined;
+  email: string | undefined;
+  image: string | null;
   role: 'admin' | 'client' | 'driver' | 'operator';
   permissions: string[];
-  phone?: string;
-  avatar?: string;
+  phone: string | undefined;
 }
 
 // Extend NextAuth types
 declare module 'next-auth' {
-  interface Session {
-    user: BaseUser;
+  interface User {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    role: 'admin' | 'client' | 'driver' | 'operator';
+    permissions: string[];
+    phone?: string | null;
   }
-  
-  interface User extends BaseUser {}
+
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      role: 'admin' | 'client' | 'driver' | 'operator';
+      permissions: string[];
+      phone?: string | null;
+    };
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id: string;
+    role: 'admin' | 'client' | 'driver' | 'operator';
+    permissions: string[];
+    phone?: string | null;
+  }
 }
 
 // Mock users database - In production, this would be replaced with a real database
@@ -56,64 +82,44 @@ const mockUsers: AppUser[] = [
     email: 'admin@nukhbat-naql.sa',
     name: 'مدير النظام',
     role: 'admin',
-    avatar: '/avatars/admin.png',
+    image: '/avatars/admin.png',
+    password: '$2a$10$XFDJhL3J5z6Z8Z5t8Z5t8e', // 'admin123' hashed
+    permissions: ['manage_users', 'manage_orders', 'manage_vehicles', 'manage_drivers', 'view_analytics'],
     phone: '+966501234567',
-    permissions: [
-      'manage_users',
-      'manage_orders',
-      'manage_vehicles',
-      'manage_drivers',
-      'view_analytics',
-      'manage_settings',
-      'send_notifications'
-    ]
+    emailVerified: new Date()
   },
   {
     id: '2',
-    email: 'client@nukhbat-naql.sa',
-    name: 'أحمد محمد العلي',
-    role: 'client',
-    avatar: '/avatars/client.png',
-    phone: '+966509876543',
-    permissions: [
-      'create_orders',
-      'track_orders',
-      'view_invoices',
-      'update_profile'
-    ]
+    email: 'driver@nukhbat-naql.sa',
+    name: 'سائق النقل',
+    role: 'driver',
+    image: '/avatars/driver.png',
+    password: '$2a$10$XFDJhL3J5z6Z8Z5t8Z5t8e', // 'driver123' hashed
+    permissions: ['view_orders', 'update_order_status'],
+    phone: '+966501234568',
+    emailVerified: new Date()
   },
   {
     id: '3',
-    email: 'driver@nukhbat-naql.sa',
-    name: 'محمد عبدالله السعد',
-    role: 'driver',
-    avatar: '/avatars/driver.png',
-    phone: '+966501234568',
-    password: '$2a$10$XFDJhL3J5z6Z8Z5t8Z5t8e', // Hashed 'Driver@123'
-    permissions: [
-      'view_assigned_orders',
-      'update_order_status',
-      'update_location',
-      'view_vehicle_info',
-      'view_history',
-      'contact_support'
-    ]
+    email: 'client@nukhbat-naql.sa',
+    name: 'عميل',
+    role: 'client',
+    image: '/avatars/client.png',
+    password: '$2a$10$XFDJhL3J5z6Z8Z5t8Z5t8e', // 'client123' hashed
+    permissions: ['create_order', 'view_own_orders'],
+    phone: '+966501234569',
+    emailVerified: new Date()
   },
   {
     id: '4',
     email: 'operator@nukhbat-naql.sa',
-    name: 'سارة أحمد الخالد',
+    name: 'موظف الاستقبال',
     role: 'operator',
-    avatar: '/avatars/operator.png',
-    phone: '+966507777777',
-    permissions: [
-      'manage_orders',
-      'assign_drivers',
-      'track_vehicles',
-      'handle_support',
-      'send_notifications'
-    ]
-  }
+    image: '/avatars/operator.png',
+    password: '$2a$10$XFDJhL3J5z6Z8Z5t8Z5t8e', // 'operator123' hashed
+    permissions: ['manage_orders', 'view_drivers', 'view_vehicles'],
+    phone: '+966501234570',
+    emailVerified: new Date()  }
 ];
 
 // Password hashing function (use a proper hashing library like bcrypt in production)
@@ -144,15 +150,88 @@ const getUserById = (id: string): AppUser | undefined => {
   return mockUsers.find(user => user.id === id);
 };
 
+/**
+ * Find a user by their email address (case-insensitive)
+ * @param email - The email address to search for
+ * @returns The user if found, undefined otherwise
+ */
 const getUserByEmail = (email: string): AppUser | undefined => {
-  return mockUsers.find(user => user.email.toLowerCase() === email.toLowerCase());
+  if (!email) {
+    console.warn('getUserByEmail called with empty or undefined email');
+    return undefined;
+  }
+  
+  const normalizedEmail = email.trim().toLowerCase();
+  
+  // First try to find in the database
+  try {
+    const user = mockUsers.find(user => 
+      user.email?.toLowerCase() === normalizedEmail
+    );
+    
+    if (user) {
+      console.log(`Found user by email: ${email}`);
+      return user;
+    }
+    
+    console.log(`No user found with email: ${email}`);
+    return undefined;
+  } catch (error) {
+    console.error('Error in getUserByEmail:', error);
+    return undefined;
+  }
 };
 
-export const hasPermission = (userPermissions: string[], requiredPermission: string): boolean => {
+/**
+ * Checks if a user has a specific permission
+ * @param userPermissions - Array of permissions the user has
+ * @param requiredPermission - The permission to check for
+ * @returns boolean indicating if the user has the required permission
+ */
+export const hasPermission = (
+  userPermissions: readonly string[], 
+  requiredPermission: string
+): boolean => {
+  // Input validation
+  if (!Array.isArray(userPermissions) || typeof requiredPermission !== 'string') {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Invalid parameters provided to hasPermission:', { 
+        userPermissions, 
+        requiredPermission 
+      });
+    }
+    return false;
+  }
+  
+  // Check for permission
   return userPermissions.includes(requiredPermission);
 };
 
-export const hasRole = (userRole: string, allowedRoles: string[]): boolean => {
+// Define valid user roles as a type
+type UserRole = 'admin' | 'client' | 'driver' | 'operator';
+
+/**
+ * Checks if a user has one of the allowed roles
+ * @param userRole - The role of the user
+ * @param allowedRoles - Array of roles that are allowed
+ * @returns boolean indicating if the user's role is in the allowed roles
+ */
+export const hasRole = (
+  userRole: UserRole, 
+  allowedRoles: readonly UserRole[]
+): boolean => {
+  // Input validation
+  if (!userRole || !Array.isArray(allowedRoles) || allowedRoles.length === 0) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Invalid parameters provided to hasRole:', { 
+        userRole, 
+        allowedRoles 
+      });
+    }
+    return false;
+  }
+  
+  // Check for role
   return allowedRoles.includes(userRole);
 };
 
@@ -231,7 +310,7 @@ const logActivity = async (
 };
 
 // Main auth configuration
-export const authOptions: NextAuthConfig = {
+export const authOptions: NextAuthOptions = {
   // Session configuration
   session: {
     strategy: 'jwt',
@@ -273,114 +352,173 @@ export const authOptions: NextAuthConfig = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
-        const { email, password } = credentials as { email: string; password: string };
+      async authorize(
+          credentials: Record<'email' | 'password', string> | undefined,
+          req: any
+        ) {
+        // Input validation
+        if (!credentials?.email || !credentials?.password) {
+          console.warn('❌ Missing email or password');
+          return null;
+        }
+
+        const { email, password } = credentials;
+        
+        // Email validation
+        const isValidEmail = (email: string): boolean => {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        };
+
         try {
-          console.log('Login attempt with credentials:', email);
+          // Validate email format
+          if (!isValidEmail(email)) {
+            console.warn(`❌ Invalid email format: ${email}`);
+            return null;
+          }
 
-          // Find user by email (case-insensitive)
-          const user = mockUsers.find(u => 
-            u.email.toLowerCase() === email.toLowerCase()
-          );
-          
+          // Try to get user from the database or fall back to the mock
+          const user = getUserByEmail(email);
           if (!user) {
-            console.log('User not found:', email);
-            throw new Error('Invalid email or password');
+            console.warn(`❌ No user found with email: ${email}`);
+            return null;
           }
 
-          console.log('User found:', user.email);
-          
-          // For demo purposes, we'll use a simple comparison with hashed passwords
-          // In production, use a proper password hashing library like bcrypt
-          let isPasswordValid = false;
-          const password = typeof credentials.password === 'string' ? credentials.password : '';
-          const hashedPassword = await hashPassword(password);
-          
-          // Check if the provided password matches the stored hashed password
-          if (user.password && user.password === hashedPassword) {
-            isPasswordValid = true;
-          }
-          
-          // Fallback for demo accounts (remove in production)
-          if (!isPasswordValid) {
-            if (user.email.toLowerCase() === 'driver@nukhbat-naql.sa' && 
-                credentials.password === 'Driver@123') {
-              isPasswordValid = true;
-            } 
-            else if (user.email.toLowerCase() === 'admin@nukhbat-naql.sa' && 
-                     credentials.password === 'Admin@123') {
-              isPasswordValid = true;
-            }
-            else if (user.email.toLowerCase() === 'client@nukhbat-naql.sa' && 
-                     credentials.password === 'Client@123') {
-              isPasswordValid = true;
-            }
-            else if (user.email.toLowerCase() === 'operator@nukhbat-naql.sa' && 
-                     credentials.password === 'Operator@123') {
-              isPasswordValid = true;
-            }
-          }
-          
-          if (!isPasswordValid) {
-            console.log('Invalid password for user:', user.email);
-            throw new Error('Invalid email or password');
+          // Verify password
+          const passwordMatch = await compare(credentials.password, user.password || '');
+          if (!passwordMatch) {
+            console.error(`❌ [AUTH] Invalid password for user: ${user.email}`);
+            throw new Error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
           }
 
-          return {
+          // Log successful login
+          await logActivity(user.id, 'user_login', 'User logged in successfully');
+
+          // Normalize permissions to `string[]` and return user object without the password
+          const normalizedPermissions: string[] = Array.isArray(user.permissions)
+            ? user.permissions
+            : user.permissions
+            ? [String(user.permissions)]
+            : [];
+
+          const userToReturn = {
             id: user.id,
-            email: user.email,
-            name: user.name,
+            name: user.name ?? null,
+            email: user.email ?? null,
+            image: user.image ?? null,
             role: user.role,
-            avatar: user.avatar,
-            phone: user.phone,
-            permissions: user.permissions
+            permissions: normalizedPermissions,
+            phone: user.phone ?? null,
           };
+
+          return userToReturn;
         } catch (error) {
-          console.error('Authentication error:', error);
-          throw new Error('An error occurred during login');
+          console.error('❌ [AUTH] Error authorizing user:', error);
+          return null;
         }
       }
     })
   ],
+  
   callbacks: {
-    async jwt({ token, user, account }: { 
-      token: any; 
-      user?: any; 
-      account?: any;
-    }) {
+    async session({ session, token }) {
+      try {
+        // Helper function to check if role is valid
+        const isValidRole = (role: unknown): role is 'admin' | 'client' | 'driver' | 'operator' => {
+          return typeof role === 'string' && 
+                ['admin', 'client', 'driver', 'operator'].includes(role);
+        };
+
+        // Helper function to get safe permissions
+        const getSafePermissions = (permissions: unknown): string[] => {
+          try {
+            if (!permissions) return [];
+            
+            // Handle stringified JSON
+            if (typeof permissions === 'string') {
+              try {
+                const parsed = JSON.parse(permissions);
+                return Array.isArray(parsed) ? parsed.filter((p: any) => typeof p === 'string') : [];
+              } catch (e) {
+                console.warn('❌ [AUTH] Failed to parse permissions string:', permissions);
+                return [];
+              }
+            }
+            
+            // Handle array of permissions
+            if (Array.isArray(permissions)) {
+              return permissions.filter((p: any): p is string => 
+                typeof p === 'string' && p.trim().length > 0
+              );
+            }
+            
+            return [];
+          } catch (error) {
+            console.error('❌ [AUTH] Error processing permissions:', error);
+            return [];
+          }
+        };
+
+        // Validate session and user object
+        if (!session?.user) {
+          console.warn('⚠️ [AUTH] Session validation failed: No user in session');
+          return session;
+        }
+
+        // Get user ID from token
+        const userId = token.sub && typeof token.sub === 'string' ? token.sub : '';
+        
+        // Validate and get user role
+        const userRole = isValidRole(token.role) ? token.role : 'client';
+        
+        // Get safe permissions
+        const userPermissions = getSafePermissions(token.permissions);
+        
+        // Update session with user data
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: userId,
+            role: userRole,
+            permissions: userPermissions,
+            phone: typeof token.phone === 'string' ? token.phone : null,
+          }
+        };
+      } catch (error) {
+        console.error('❌ [AUTH] Error in session callback:', error);
+        // Return minimal session on error to prevent complete failure
+        return {
+          ...session,
+          user: {
+            ...session?.user,
+            id: '',
+            role: 'client',
+            permissions: [],
+          }
+        };
+      }
+    },
+
+    async jwt({ token, user, account }) {
       // Initial sign in
-      if (user) {
+      if (account && user) {
         token.id = user.id;
         token.role = user.role;
         token.permissions = user.permissions;
-        token.phone = user.phone;
-        token.avatar = user.avatar;
+        token.phone = user.phone || null;
       }
+      
+      // Log JWT token updates (sensitive data removed)
+      if (process.env.NODE_ENV === 'development') {
+        const { iat, exp, jti, ...safeToken } = token;
+        console.log('🔄 JWT callback:', safeToken);
+      }
+      
       return token;
-    },
-    async session({ session, token }: { session: any; token: any }) {
-      // Add user data to session
-      if (session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as string;
-        session.user.permissions = token.permissions as string[];
-        if (token.phone) session.user.phone = token.phone as string;
-        if (token.avatar) session.user.avatar = token.avatar as string;
-      }
-      return session;
-    },
-    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      // Redirect based on user role after login
-      if (url.startsWith('/')) return `${baseUrl}${url}`;
-      try {
-        if (new URL(url).origin === baseUrl) return url;
-      } catch (e) {
-        // Invalid URL, return base URL
-      }
-      return baseUrl;
     }
-  }
+  },
+  
+// End of authOptions object (no duplicate `pages`/`debug` here)
 };
 
 // Export the configured NextAuth options

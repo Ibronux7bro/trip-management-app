@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       where.status = status;
     }
     if (type) {
-      where.type = type;
+      where.vehicleType = type;
     }
 
     // Get total count
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
     
     // Validate required fields
-    if (!data.plateNumber || !data.type || !data.model || !data.year || !data.status) {
+    if (!data.plateNumber || !data.vehicleType || !data.model || !data.year || !data.status) {
       return NextResponse.json(
         { success: false, message: 'Missing required fields' },
         { status: 400 }
@@ -80,10 +80,13 @@ export async function POST(request: NextRequest) {
     const newVehicle = await prisma.vehicle.create({
       data: {
         plateNumber: data.plateNumber,
-        type: data.type,
+        vehicleType: data.vehicleType,
         model: data.model,
         year: data.year,
         status: data.status,
+        capacity: data.capacity,
+        fuelType: data.fuelType,
+        mileage: data.mileage,
       },
     });
 

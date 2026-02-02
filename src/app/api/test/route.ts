@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: `معلومات اختبار نقطة النهاية: ${endpoint}`,
-      data: testResults.endpoints[endpoint] || 'نقطة نهاية غير موجودة'
+      data: testResults.endpoints[endpoint as keyof typeof testResults.endpoints] || 'نقطة نهاية غير موجودة'
     });
   }
 

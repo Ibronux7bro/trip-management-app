@@ -1,0 +1,287 @@
+{
+  "common": {
+    "search": "بحث",
+    "filter": "تصفية",
+    "clear": "مسح",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "view": "عرض",
+    "add": "إضافة",
+    "submit": "إرسال",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "close": "إغلاق",
+    "refresh": "تحديث",
+    "from": "من",
+    "to": "إلى",
+    "status": "الحالة",
+    "actions": "الإجراءات",
+    "total": "الإجمالي",
+    "available": "متاح",
+    "unavailable": "غير متاح",
+    "all": "الكل",
+    "none": "لا شيء",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج",
+    "signUp": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "rememberMe": "تذكرني",
+    "welcome": "مرحباً بك",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "loginError": "خطأ في تسجيل الدخول",
+    "unauthorized": "غير مصرح"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "orders": "الطلبات",
+    "vehicles": "المركبات",
+    "drivers": "السائقين",
+    "trips": "الرحلات",
+    "routes": "المسارات",
+    "clients": "العملاء",
+    "reports": "التقارير",
+    "settings": "الإعدادات",
+    "profile": "الملف الشخصي",
+    "notifications": "الإشعارات",
+    "maps": "الخرائط",
+    "tracking": "التتبع",
+    "booking": "الحجز",
+    "home": "الرئيسية",
+    "myOrders": "طلباتي"
+  },
+  "sidebar": {
+    "items": {
+      "home": "الرئيسية",
+      "dashboard": "لوحة التحكم",
+      "trips": "الرحلات",
+      "orders": "الطلبات",
+      "vehicles": "المركبات",
+      "drivers": "السائقين",
+      "routes": "المسارات",
+      "maps": "الخرائط",
+      "reports": "التقارير",
+      "settings": "الإعدادات",
+      "myOrders": "طلباتي",
+      "tracking": "التتبع",
+      "booking": "الحجز"
+    }
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "welcome": "مرحباً بك في نخبة النقل",
+    "siteName": "نخبة النقل",
+    "stats": {
+      "totalDrivers": "إجمالي السائقين",
+      "availableDrivers": "السائقين المتاحين",
+      "totalVehicles": "إجمالي المركبات",
+      "availableVehicles": "المركبات المتاحة",
+      "activeTrips": "الرحلات النشطة",
+      "completedTrips": "الرحلات المكتملة",
+      "totalOrders": "إجمالي الطلبات",
+      "pendingOrders": "الطلبات المعلقة"
+    },
+    "drivers": "السائقين",
+    "availableDrivers": "سائقين متاحين",
+    "offlineDrivers": "سائقين غير متصلين",
+    "onTripDrivers": "سائقين في رحلة",
+    "totalDrivers": "إجمالي السائقين",
+    "driverAnalytics": "تحليلات السائقين",
+    "performanceOverview": "نظرة عامة على الأداء",
+    "completionRate": "معدل الإنجاز"
+  },
+  "orders": {
+    "title": "إدارة الطلبات",
+    "newOrder": "طلب جديد",
+    "orderDetails": "تفاصيل الطلب",
+    "orderNumber": "رقم الطلب",
+    "createOrder": "إنشاء طلب",
+    "editOrder": "تعديل الطلب",
+    "deleteOrder": "حذف الطلب",
+    "refresh": "تحديث",
+    "searchPlaceholder": "البحث برقم الطلب، رقم اللوحة، أو نوع السيارة...",
+    "noOrders": "لا توجد طلبات",
+    "noOrdersDescription": "لم يتم إنشاء أي طلبات بعد",
+    "noMatchingOrders": "لا توجد طلبات تطابق معايير البحث",
+    "clearFilters": "مسح الفلاتر",
+    "showing": "عرض",
+    "of": "من",
+    "status": {
+      "all": "جميع الحالات",
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "in_transit": "قيد التوصيل",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغي"
+    },
+    "fields": {
+      "id": "رقم الطلب",
+      "carType": "نوع السيارة",
+      "carModel": "موديل السيارة",
+      "plateNumber": "رقم اللوحة",
+      "fromCity": "من مدينة",
+      "toCity": "إلى مدينة",
+      "fromAddress": "عنوان الاستلام",
+      "toAddress": "عنوان التسليم",
+      "price": "السعر",
+      "paymentMethod": "طريقة الدفع",
+      "notes": "ملاحظات",
+      "createdAt": "تاريخ الإنشاء"
+    },
+    "messages": {
+      "loadError": "فشل في تحميل الطلبات",
+      "createSuccess": "تم إنشاء الطلب بنجاح",
+      "createError": "فشل في إنشاء الطلب",
+      "updateSuccess": "تم تحديث الطلب بنجاح",
+      "updateError": "فشل في تحديث الطلب",
+      "deleteSuccess": "تم حذف الطلب بنجاح",
+      "deleteError": "فشل في حذف الطلب",
+      "deleteConfirm": "هل أنت متأكد من حذف هذا الطلب؟"
+    }
+  },
+  "vehicles": {
+    "title": "إدارة المركبات",
+    "addVehicle": "إضافة مركبة",
+    "editVehicle": "تعديل المركبة",
+    "deleteVehicle": "حذف المركبة",
+    "vehicleDetails": "تفاصيل المركبة",
+    "searchPlaceholder": "البحث برقم اللوحة...",
+    "noVehicles": "لا توجد مركبات",
+    "noVehiclesDescription": "لم يتم إضافة أي مركبات بعد",
+    "filterByStatus": "الحالة",
+    "filterByType": "النوع",
+    "status": {
+      "all": "جميع الحالات",
+      "Available": "متاحة",
+      "Maintenance": "صيانة",
+      "OutOfService": "خارج الخدمة"
+    },
+    "types": {
+      "all": "جميع الأنواع",
+      "Car": "سيارة",
+      "Truck": "شاحنة",
+      "Bus": "باص",
+      "Van": "فان"
+    },
+    "fields": {
+      "plateNumber": "رقم اللوحة",
+      "type": "النوع",
+      "model": "الموديل",
+      "year": "السنة",
+      "status": "الحالة",
+      "capacity": "الحمولة",
+      "fuelType": "نوع الوقود",
+      "mileage": "عداد الكيلومترات",
+      "driver": "السائق"
+    },
+    "messages": {
+      "loadError": "فشل في تحميل المركبات",
+      "createSuccess": "تم إضافة المركبة بنجاح",
+      "createError": "فشل في إضافة المركبة",
+      "updateSuccess": "تم تحديث المركبة بنجاح",
+      "updateError": "فشل في تحديث المركبة",
+      "deleteSuccess": "تم حذف المركبة بنجاح",
+      "deleteError": "فشل في حذف المركبة",
+      "deleteConfirm": "هل أنت متأكد من حذف هذه المركبة؟",
+      "plateExists": "رقم اللوحة موجود مسبقاً"
+    }
+  },
+  "drivers": {
+    "title": "إدارة السائقين",
+    "addDriver": "إضافة سائق",
+    "editDriver": "تعديل السائق",
+    "deleteDriver": "حذف السائق",
+    "driverDetails": "تفاصيل السائق",
+    "fields": {
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "licenseNumber": "رقم الرخصة",
+      "licenseExpiry": "تاريخ انتهاء الرخصة",
+      "gender": "الجنس",
+      "dateOfBirth": "تاريخ الميلاد",
+      "address": "العنوان",
+      "status": "الحالة",
+      "rating": "التقييم",
+      "totalTrips": "عدد الرحلات"
+    },
+    "status": {
+      "available": "متاح",
+      "busy": "مشغول",
+      "offline": "غير متصل"
+    }
+  },
+  "trips": {
+    "title": "إدارة الرحلات",
+    "newTrip": "رحلة جديدة",
+    "tripDetails": "تفاصيل الرحلة",
+    "status": {
+      "scheduled": "مجدولة",
+      "in_progress": "جارية",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة"
+    },
+    "fields": {
+      "driver": "السائق",
+      "vehicle": "المركبة",
+      "startLocation": "موقع البداية",
+      "endLocation": "موقع النهاية",
+      "startTime": "وقت البداية",
+      "endTime": "وقت النهاية",
+      "distance": "المسافة",
+      "duration": "المدة"
+    }
+  },
+  "routes": {
+    "title": "إدارة المسارات",
+    "newRoute": "مسار جديد",
+    "routeDetails": "تفاصيل المسار",
+    "fields": {
+      "name": "اسم المسار",
+      "startPoint": "نقطة البداية",
+      "endPoint": "نقطة النهاية",
+      "distance": "المسافة",
+      "duration": "الوقت المتوقع",
+      "waypoints": "نقاط المرور"
+    }
+  },
+  "validation": {
+    "required": "هذا الحقل مطلوب",
+    "email": "البريد الإلكتروني غير صحيح",
+    "minLength": "الحد الأدنى {{min}} أحرف",
+    "maxLength": "الحد الأقصى {{max}} أحرف",
+    "number": "يجب أن يكون رقماً",
+    "positive": "يجب أن يكون رقماً موجباً",
+    "min": "الحد الأدنى {{min}}",
+    "max": "الحد الأقصى {{max}}"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "noNotifications": "لا توجد إشعارات",
+    "markAsRead": "تعليم كمقروء",
+    "markAllAsRead": "تعليم الكل كمقروء",
+    "clear": "مسح الإشعارات"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام",
+    "notifications": "الإشعارات",
+    "profile": "الملف الشخصي"
+  }
+}

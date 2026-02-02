@@ -1,9 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -18,30 +14,30 @@ model User {
   emailVerified DateTime?
   image         String?
   role          String    @default("user")
-  permissions   String   @default("[]")
+  permissions   String    @default("[]")
   password      String?
   phone         String?
-  accounts      Account[]
-  sessions      Session[]
-  orders        Order[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  orders        Order[]
+  sessions      Session[]
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
-  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -69,24 +65,42 @@ model Order {
   plateNumber   String
   fromCity      String
   toCity        String
+  fromAddress   String?
+  toAddress     String?
   paymentMethod String
   price         Float
   status        String   @default("pending")
+  notes         String?
+  userId        String?
+  tripId        String?  @unique
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  userId        String?
+  trip          Trip?    @relation(fields: [tripId], references: [id])
   user          User?    @relation(fields: [userId], references: [id])
+
+  @@index([status])
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model Vehicle {
   id          String   @id @default(cuid())
   plateNumber String   @unique
-  type        String
+  vehicleType String
   model       String
   year        Int
-  status      String
+  status      String   @default("Available")
+  capacity    Int?
+  fuelType    String?
+  mileage     Float?
+  driverId    String?  @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  trips       Trip[]
+  driver      Driver?  @relation(fields: [driverId], references: [id])
+
+  @@index([status])
+  @@index([vehicleType])
 }
 
 model Driver {
@@ -95,10 +109,65 @@ model Driver {
   gender        String
   dateOfBirth   DateTime
   contactNumber String
+  email         String?  @unique
   address       String
   licenseNumber String   @unique
   licenseExpiry DateTime
-  status        String   @default("active")
+  status        String   @default("available")
+  rating        Float?   @default(5.0)
+  totalTrips    Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  trips         Trip[]
+  vehicle       Vehicle?
+
+  @@index([status])
+  @@index([email])
+}
+
+model Trip {
+  id            String    @id @default(cuid())
+  orderId       String?   @unique
+  driverId      String
+  vehicleId     String
+  routeId       String?
+  startLocation String
+  endLocation   String
+  startTime     DateTime?
+  endTime       DateTime?
+  estimatedTime Int?
+  distance      Float?
+  status        String    @default("scheduled")
+  currentLat    Float?
+  currentLng    Float?
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  order         Order?
+  route         Route?    @relation(fields: [routeId], references: [id])
+  vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
+  driver        Driver    @relation(fields: [driverId], references: [id])
+
+  @@index([status])
+  @@index([driverId])
+  @@index([vehicleId])
+  @@index([startTime])
+}
+
+model Route {
+  id         String   @id @default(cuid())
+  name       String
+  startPoint String
+  endPoint   String
+  distance   Float
+  duration   Int
+  waypoints  String?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  trips      Trip[]
+
+  @@index([isActive])
+  @@index([startPoint])
+  @@index([endPoint])
 }

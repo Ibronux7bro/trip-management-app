@@ -91,69 +91,71 @@ const Navbar = () => {
           </div>
         </div>
         {/* Right side - Language, Theme toggle, notifications, and user menu */}
-        <div className={`flex items-center gap-2 animate-slideInFromRight ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex items-center gap-1 sm:gap-2 animate-slideInFromRight ${isRTL ? 'flex-row-reverse' : ''}`}>
           <LanguageToggleCompact />
           <ThemeToggle />
           <NotificationCenter />
           <Button
             variant="ghost"
-            className="flex items-center gap-2 text-sm font-medium animate-scaleIn hover:scale-105 transition-all duration-300"
+            className={`items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium animate-scaleIn hover:scale-105 transition-all duration-300 px-2 sm:px-3 hidden sm:flex ${isRTL ? 'flex-row-reverse' : ''}`}
             style={{ animationDelay: '0.3s' }}
           >
-            <LogOut className="w-4 h-4" />
-            {translations.signOut}
+            <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="hidden md:inline">{translations.signOut}</span>
           </Button>
         </div>
       </nav>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="w-full h-full sm:max-w-xl sm:h-2/3 p-0">
-          <div className="flex flex-col w-full">
+        <DialogContent className="w-[95vw] max-w-4xl h-[90vh] sm:h-auto sm:max-h-[80vh] p-0 overflow-hidden">
+          <div className="flex flex-col w-full h-full">
             {/* Search Input */}
-            <div className="flex items-center border-b px-3">
-              <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <div className={`flex items-center border-b px-3 sm:px-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <Search className={`h-4 w-4 shrink-0 opacity-50 ${isRTL ? 'ml-2' : 'mr-2'}`} />
               <Input
-                className="flex h-16 w-full rounded-md bg-transparent py-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-0 focus-visible:ring-0"
+                className="flex h-12 sm:h-16 w-full rounded-md bg-transparent py-3 sm:py-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-0 focus-visible:ring-0"
                 placeholder={translations.search + '...'}
                 aria-label="Search"
+                dir={isRTL ? 'rtl' : 'ltr'}
               />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] h-full w-full place-content-center gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] flex-1 w-full overflow-y-auto gap-4 md:gap-8 p-4 md:p-6">
               {/* Quick Settings Section */}
-              <div className="flex flex-col items-start pl-16">
-                <h4 className="mb-4 text-sm font-medium leading-none text-muted-foreground">
+              <div className={`flex flex-col ${isRTL ? 'items-end md:items-start pr-0 md:pr-8' : 'items-start pl-0 md:pl-8'}`}>
+                <h4 className="mb-3 md:mb-4 text-xs sm:text-sm font-medium leading-none text-muted-foreground">
                   {translations.quickSettings}
                 </h4>
-                <div className="space-y-2 text-muted-foreground">
+                <div className="space-y-1 md:space-y-2 text-muted-foreground w-full">
                   {quickSettings.map(({ id, Icon, label }) => (
                     <Button
                       key={id}
                       variant="ghost"
-                      className="w-full justify-start gap-3 pl-0 hover:bg-background hover:text-accent-foreground"
+                      className={`w-full gap-2 md:gap-3 px-2 md:px-3 py-2 h-auto hover:bg-background hover:text-accent-foreground text-sm ${isRTL ? 'justify-end flex-row-reverse' : 'justify-start'}`}
                     >
-                      <Icon className="h-4 w-4" />
-                      {label}
+                      <Icon className="h-4 w-4 shrink-0" />
+                      <span className="truncate">{label}</span>
                     </Button>
                   ))}
                 </div>
               </div>
 
-              <Separator orientation="vertical" className="h-auto" />
+              <Separator orientation="vertical" className="hidden md:block h-auto" />
+              <Separator orientation="horizontal" className="md:hidden my-2" />
 
               {/* Management Section */}
-              <div className="flex flex-col items-start pr-16">
-                <h4 className="mb-4 text-sm font-medium leading-none text-muted-foreground">
+              <div className={`flex flex-col ${isRTL ? 'items-end md:items-start pl-0 md:pl-8' : 'items-start pr-0 md:pr-8'}`}>
+                <h4 className="mb-3 md:mb-4 text-xs sm:text-sm font-medium leading-none text-muted-foreground">
                   {translations.management}
                 </h4>
-                <div className="space-y-2 text-muted-foreground">
+                <div className="space-y-1 md:space-y-2 text-muted-foreground w-full">
                   {managementOptions.map(({ id, Icon, label }) => (
                     <Button
                       key={id}
                       variant="ghost"
-                      className="w-full justify-start gap-3 pl-0 hover:bg-background hover:text-accent-foreground"
+                      className={`w-full gap-2 md:gap-3 px-2 md:px-3 py-2 h-auto hover:bg-background hover:text-accent-foreground text-sm ${isRTL ? 'justify-end flex-row-reverse' : 'justify-start'}`}
                     >
-                      <Icon className="h-4 w-4" />
-                      {label}
+                      <Icon className="h-4 w-4 shrink-0" />
+                      <span className="truncate">{label}</span>
                     </Button>
                   ))}
                 </div>

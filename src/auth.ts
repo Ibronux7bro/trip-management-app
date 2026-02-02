@@ -1,5 +1,5 @@
-import NextAuth from 'next-auth';
-import { authConfig } from '@/lib/auth-config';
+// This file is for NextAuth v5 compatibility
+// For NextAuth v4, we use the route handler in /api/auth/[...nextauth]/route.ts
+import { authOptions } from '@/lib/auth';
 
-// Export the auth handler for API routes
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+export { authOptions };

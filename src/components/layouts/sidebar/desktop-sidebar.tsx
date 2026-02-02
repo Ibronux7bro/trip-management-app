@@ -173,7 +173,7 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
         </div>
       </div>
 
-      <nav className={`flex-1 overflow-y-auto py-6 ${getPadding()} space-y-1 sidebar-scroll min-h-0`}>
+      <nav className={`flex-1 overflow-y-auto py-6 ${getPadding()} pr-2 space-y-1 sidebar-scroll min-h-0`}>
         {MENU_STRUCTURE.map((section, sectionIndex) => (
           <React.Fragment key={section.group || `section-${sectionIndex}`}>
             {section.group && (
@@ -202,8 +202,8 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
         ))}
       </nav>
       
-      {/* Scroll indicator */}
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-card to-transparent pointer-events-none opacity-50" />
+      {/* Scroll indicator - position adjusted for RTL */}
+      <div className={`absolute bottom-0 h-8 bg-gradient-to-t from-card to-transparent pointer-events-none opacity-50 ${isRTL ? 'left-2 right-0' : 'left-0 right-2'}`} />
     </aside>
   );
 };

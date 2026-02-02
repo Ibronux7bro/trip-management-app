@@ -11,6 +11,7 @@ import {
   Users,
   Package,
   ShoppingCart,
+  UserCircle,
 } from 'lucide-react';
 
 // Update the MenuSection type to include isDisabled

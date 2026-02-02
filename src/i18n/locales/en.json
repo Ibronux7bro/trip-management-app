@@ -1,0 +1,287 @@
+{
+  "common": {
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "add": "Add",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "refresh": "Refresh",
+    "from": "From",
+    "to": "To",
+    "status": "Status",
+    "actions": "Actions",
+    "total": "Total",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "all": "All",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "welcome": "Welcome",
+    "loginSuccess": "Login Successful",
+    "loginError": "Login Error",
+    "unauthorized": "Unauthorized"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "vehicles": "Vehicles",
+    "drivers": "Drivers",
+    "trips": "Trips",
+    "routes": "Routes",
+    "clients": "Clients",
+    "reports": "Reports",
+    "settings": "Settings",
+    "profile": "Profile",
+    "notifications": "Notifications",
+    "maps": "Maps",
+    "tracking": "Tracking",
+    "booking": "Booking",
+    "home": "Home",
+    "myOrders": "My Orders"
+  },
+  "sidebar": {
+    "items": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "trips": "Trips",
+      "orders": "Orders",
+      "vehicles": "Vehicles",
+      "drivers": "Drivers",
+      "routes": "Routes",
+      "maps": "Maps",
+      "reports": "Reports",
+      "settings": "Settings",
+      "myOrders": "My Orders",
+      "tracking": "Tracking",
+      "booking": "Booking"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to Nukhbat Al-Naql",
+    "siteName": "Nukhbat Al-Naql",
+    "stats": {
+      "totalDrivers": "Total Drivers",
+      "availableDrivers": "Available Drivers",
+      "totalVehicles": "Total Vehicles",
+      "availableVehicles": "Available Vehicles",
+      "activeTrips": "Active Trips",
+      "completedTrips": "Completed Trips",
+      "totalOrders": "Total Orders",
+      "pendingOrders": "Pending Orders"
+    },
+    "drivers": "Drivers",
+    "availableDrivers": "Available Drivers",
+    "offlineDrivers": "Offline Drivers",
+    "onTripDrivers": "On Trip Drivers",
+    "totalDrivers": "Total Drivers",
+    "driverAnalytics": "Driver Analytics",
+    "performanceOverview": "Performance Overview",
+    "completionRate": "Completion Rate"
+  },
+  "orders": {
+    "title": "Order Management",
+    "newOrder": "New Order",
+    "orderDetails": "Order Details",
+    "orderNumber": "Order Number",
+    "createOrder": "Create Order",
+    "editOrder": "Edit Order",
+    "deleteOrder": "Delete Order",
+    "refresh": "Refresh",
+    "searchPlaceholder": "Search by order number, plate number, or car type...",
+    "noOrders": "No Orders",
+    "noOrdersDescription": "No orders have been created yet",
+    "noMatchingOrders": "No orders match the search criteria",
+    "clearFilters": "Clear Filters",
+    "showing": "Showing",
+    "of": "of",
+    "status": {
+      "all": "All Statuses",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "in_transit": "In Transit",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "fields": {
+      "id": "Order ID",
+      "carType": "Car Type",
+      "carModel": "Car Model",
+      "plateNumber": "Plate Number",
+      "fromCity": "From City",
+      "toCity": "To City",
+      "fromAddress": "Pickup Address",
+      "toAddress": "Delivery Address",
+      "price": "Price",
+      "paymentMethod": "Payment Method",
+      "notes": "Notes",
+      "createdAt": "Created At"
+    },
+    "messages": {
+      "loadError": "Failed to load orders",
+      "createSuccess": "Order created successfully",
+      "createError": "Failed to create order",
+      "updateSuccess": "Order updated successfully",
+      "updateError": "Failed to update order",
+      "deleteSuccess": "Order deleted successfully",
+      "deleteError": "Failed to delete order",
+      "deleteConfirm": "Are you sure you want to delete this order?"
+    }
+  },
+  "vehicles": {
+    "title": "Vehicle Management",
+    "addVehicle": "Add Vehicle",
+    "editVehicle": "Edit Vehicle",
+    "deleteVehicle": "Delete Vehicle",
+    "vehicleDetails": "Vehicle Details",
+    "searchPlaceholder": "Search by plate number...",
+    "noVehicles": "No Vehicles",
+    "noVehiclesDescription": "No vehicles have been added yet",
+    "filterByStatus": "Status",
+    "filterByType": "Type",
+    "status": {
+      "all": "All Statuses",
+      "Available": "Available",
+      "Maintenance": "Maintenance",
+      "OutOfService": "Out of Service"
+    },
+    "types": {
+      "all": "All Types",
+      "Car": "Car",
+      "Truck": "Truck",
+      "Bus": "Bus",
+      "Van": "Van"
+    },
+    "fields": {
+      "plateNumber": "Plate Number",
+      "type": "Type",
+      "model": "Model",
+      "year": "Year",
+      "status": "Status",
+      "capacity": "Capacity",
+      "fuelType": "Fuel Type",
+      "mileage": "Mileage",
+      "driver": "Driver"
+    },
+    "messages": {
+      "loadError": "Failed to load vehicles",
+      "createSuccess": "Vehicle added successfully",
+      "createError": "Failed to add vehicle",
+      "updateSuccess": "Vehicle updated successfully",
+      "updateError": "Failed to update vehicle",
+      "deleteSuccess": "Vehicle deleted successfully",
+      "deleteError": "Failed to delete vehicle",
+      "deleteConfirm": "Are you sure you want to delete this vehicle?",
+      "plateExists": "Plate number already exists"
+    }
+  },
+  "drivers": {
+    "title": "Driver Management",
+    "addDriver": "Add Driver",
+    "editDriver": "Edit Driver",
+    "deleteDriver": "Delete Driver",
+    "driverDetails": "Driver Details",
+    "fields": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "licenseNumber": "License Number",
+      "licenseExpiry": "License Expiry",
+      "gender": "Gender",
+      "dateOfBirth": "Date of Birth",
+      "address": "Address",
+      "status": "Status",
+      "rating": "Rating",
+      "totalTrips": "Total Trips"
+    },
+    "status": {
+      "available": "Available",
+      "busy": "Busy",
+      "offline": "Offline"
+    }
+  },
+  "trips": {
+    "title": "Trip Management",
+    "newTrip": "New Trip",
+    "tripDetails": "Trip Details",
+    "status": {
+      "scheduled": "Scheduled",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "fields": {
+      "driver": "Driver",
+      "vehicle": "Vehicle",
+      "startLocation": "Start Location",
+      "endLocation": "End Location",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "distance": "Distance",
+      "duration": "Duration"
+    }
+  },
+  "routes": {
+    "title": "Route Management",
+    "newRoute": "New Route",
+    "routeDetails": "Route Details",
+    "fields": {
+      "name": "Route Name",
+      "startPoint": "Start Point",
+      "endPoint": "End Point",
+      "distance": "Distance",
+      "duration": "Estimated Time",
+      "waypoints": "Waypoints"
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Invalid email address",
+    "minLength": "Minimum {{min}} characters",
+    "maxLength": "Maximum {{max}} characters",
+    "number": "Must be a number",
+    "positive": "Must be a positive number",
+    "min": "Minimum value {{min}}",
+    "max": "Maximum value {{max}}"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "No Notifications",
+    "markAsRead": "Mark as Read",
+    "markAllAsRead": "Mark All as Read",
+    "clear": "Clear Notifications"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "notifications": "Notifications",
+    "profile": "Profile"
+  }
+}

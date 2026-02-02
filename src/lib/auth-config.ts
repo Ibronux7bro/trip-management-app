@@ -1,5 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
-import type { NextAuthConfig } from 'next-auth';
+import type { NextAuthOptions } from 'next-auth';
 import { prisma } from './db';
 import type { BaseUser } from './auth';
 
@@ -88,7 +88,7 @@ const mockUsers: MockUser[] = [
   }
 ];
 
-export const authConfig: NextAuthConfig = {
+export const authConfig: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -138,9 +138,9 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.role = user.role as UserRole;
-        token.permissions = user.permissions;
+        token.id = user.id || ''; // Provide a default empty string if user.id is undefined
+        token.role = (user.role || DEFAULT_ROLE) as UserRole;
+        token.permissions = user.permissions || getPermissionsForRole(user.role || DEFAULT_ROLE);
       }
       return token;
     },

@@ -133,8 +133,8 @@ const MainLayout = ({
   return (
     <ErrorBoundaryWrapper>
       <React.Suspense fallback={<LoadingFallback />}>
-        <main className="h-full bg-background md:max-h-[100dvh] max-w-[100dvw] overflow-y-auto md:overflow-hidden">
-          <div className="relative flex h-full">
+        <main className="min-h-screen bg-background w-full">
+          <div className="relative flex min-h-screen">
             <div
               className={`
                 h-full shadow-xl hidden md:flex
@@ -150,11 +150,13 @@ const MainLayout = ({
             <div
               className={`
                   flex flex-col flex-1 transition-all
-                  duration-300 max-w-[100dvw] md:max-w-[86rem] overflow-y-auto md:overflow-clip mx-auto py-2
+                  duration-300 w-full max-w-[86rem] mx-auto
                   `}
             >
               <Navbar />
-              <ScrollArea className="pb-16 md:pb-0">{children}</ScrollArea>
+              <div className="flex-1 pb-20 md:pb-4 px-2 md:px-4 overflow-y-auto">
+                {children}
+              </div>
               <MobileNavigation />
             </div>
           </div>

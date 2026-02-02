@@ -1,71 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { Vehicle, VehicleFormData, MaintenanceLog, AccidentLog } from '@/types/vehicle';
-
-// Mock data - in real app, this would be in a database
-const vehicles: Vehicle[] = [
-  {
-    id: '1',
-    plateNumber: 'ABC-1234',
-    vehicleType: 'Truck',
-    model: 'Toyota Hiace',
-    year: 2022,
-    status: 'Available',
-    createdAt: '2024-01-15T08:00:00Z',
-    updatedAt: '2024-01-15T08:00:00Z',
-  },
-  {
-    id: '2',
-    plateNumber: 'XYZ-5678',
-    vehicleType: 'Car',
-    model: 'Honda Civic',
-    year: 2021,
-    status: 'Maintenance',
-    createdAt: '2024-01-10T10:30:00Z',
-    updatedAt: '2024-01-16T14:20:00Z',
-  },
-  {
-    id: '3',
-    plateNumber: 'DEF-9012',
-    vehicleType: 'Bus',
-    model: 'Mercedes Sprinter',
-    year: 2023,
-    status: 'Available',
-    createdAt: '2024-01-12T12:15:00Z',
-    updatedAt: '2024-01-12T12:15:00Z',
-  },
-];
-
-const maintenanceLogs: MaintenanceLog[] = [
-  {
-    id: '1',
-    vehicleId: '1',
-    date: '2024-01-10T10:00:00Z',
-    description: 'Oil change and filter replacement',
-    cost: 250,
-    nextDue: '2024-04-10T10:00:00Z',
-    createdAt: '2024-01-10T10:00:00Z',
-  },
-  {
-    id: '2',
-    vehicleId: '2',
-    date: '2024-01-16T14:00:00Z',
-    description: 'Brake pad replacement',
-    cost: 450,
-    nextDue: '2024-07-16T14:00:00Z',
-    createdAt: '2024-01-16T14:00:00Z',
-  },
-];
-
-const accidentLogs: AccidentLog[] = [
-  {
-    id: '1',
-    vehicleId: '2',
-    date: '2024-01-05T16:30:00Z',
-    description: 'Minor collision with parking barrier',
-    severity: 'Minor',
-    createdAt: '2024-01-05T16:30:00Z',
-  },
-];
+import { prisma } from '@/lib/db';
+import type { VehicleFormData } from '@/types/vehicle';
 
 export async function GET(
   request: NextRequest,
@@ -74,7 +9,17 @@ export async function GET(
   try {
     const { id } = params;
     
-    const vehicle = vehicles.find(v => v.id === id);
+    const vehicle = await prisma.vehicle.findUnique({
+      where: { id },
+      include: {
+        driver: true,
+        trips: {
+          take: 5,
+          orderBy: { createdAt: 'desc' }
+        }
+      }
+    });
+    
     if (!vehicle) {
       return NextResponse.json(
         { success: false, message: 'Vehicle not found' },
@@ -82,20 +27,18 @@ export async function GET(
       );
     }
 
-    // Add maintenance and accident logs
-    const vehicleWithLogs = {
-      ...vehicle,
-      maintenanceLogs: maintenanceLogs.filter(log => log.vehicleId === id),
-      accidentLogs: accidentLogs.filter(log => log.vehicleId === id),
-    };
-
     return NextResponse.json({
       success: true,
-      data: vehicleWithLogs,
+      data: vehicle,
     });
   } catch (error) {
+    console.error('Error in GET /api/vehicles/[id]:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to fetch vehicle' },
+      { 
+        success: false, 
+        message: 'Failed to fetch vehicle',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
@@ -107,10 +50,14 @@ export async function PUT(
 ) {
   try {
     const { id } = params;
-    const data: VehicleFormData = await request.json();
+    const data = await request.json();
     
-    const vehicleIndex = vehicles.findIndex(v => v.id === id);
-    if (vehicleIndex === -1) {
+    // Check if vehicle exists
+    const existingVehicle = await prisma.vehicle.findUnique({
+      where: { id }
+    });
+    
+    if (!existingVehicle) {
       return NextResponse.json(
         { success: false, message: 'Vehicle not found' },
         { status: 404 }
@@ -126,29 +73,47 @@ export async function PUT(
     }
 
     // Check if plate number already exists (excluding current vehicle)
-    const existingVehicle = vehicles.find(v => v.plateNumber === data.plateNumber && v.id !== id);
-    if (existingVehicle) {
-      return NextResponse.json(
-        { success: false, message: 'Vehicle with this plate number already exists' },
-        { status: 400 }
-      );
+    if (data.plateNumber !== existingVehicle.plateNumber) {
+      const duplicateVehicle = await prisma.vehicle.findUnique({
+        where: { plateNumber: data.plateNumber }
+      });
+      
+      if (duplicateVehicle) {
+        return NextResponse.json(
+          { success: false, message: 'Vehicle with this plate number already exists' },
+          { status: 400 }
+        );
+      }
     }
 
     // Update vehicle
-    vehicles[vehicleIndex] = {
-      ...vehicles[vehicleIndex],
-      ...data,
-      updatedAt: new Date().toISOString(),
-    };
+    const updatedVehicle = await prisma.vehicle.update({
+      where: { id },
+      data: {
+        plateNumber: data.plateNumber,
+        vehicleType: data.vehicleType,
+        model: data.model,
+        year: data.year,
+        status: data.status,
+        capacity: data.capacity,
+        fuelType: data.fuelType,
+        mileage: data.mileage,
+      },
+    });
 
     return NextResponse.json({
       success: true,
-      data: vehicles[vehicleIndex],
+      data: updatedVehicle,
       message: 'Vehicle updated successfully',
     });
   } catch (error) {
+    console.error('Error in PUT /api/vehicles/[id]:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to update vehicle' },
+      { 
+        success: false, 
+        message: 'Failed to update vehicle',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
@@ -161,28 +126,50 @@ export async function DELETE(
   try {
     const { id } = params;
     
-    const vehicleIndex = vehicles.findIndex(v => v.id === id);
-    if (vehicleIndex === -1) {
+    // Check if vehicle exists
+    const vehicle = await prisma.vehicle.findUnique({
+      where: { id },
+      include: {
+        trips: {
+          where: {
+            status: { in: ['scheduled', 'in_progress'] }
+          }
+        }
+      }
+    });
+    
+    if (!vehicle) {
       return NextResponse.json(
         { success: false, message: 'Vehicle not found' },
         { status: 404 }
       );
     }
 
-    // Instead of deleting, mark as archived (change status to "Out of Service")
-    vehicles[vehicleIndex] = {
-      ...vehicles[vehicleIndex],
-      status: 'Out of Service',
-      updatedAt: new Date().toISOString(),
-    };
+    // Check if vehicle has active trips
+    if (vehicle.trips && vehicle.trips.length > 0) {
+      return NextResponse.json(
+        { success: false, message: 'Cannot delete vehicle with active trips' },
+        { status: 400 }
+      );
+    }
+
+    // Delete the vehicle
+    await prisma.vehicle.delete({
+      where: { id }
+    });
 
     return NextResponse.json({
       success: true,
-      message: 'Vehicle archived successfully',
+      message: 'Vehicle deleted successfully',
     });
   } catch (error) {
+    console.error('Error in DELETE /api/vehicles/[id]:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to archive vehicle' },
+      { 
+        success: false, 
+        message: 'Failed to delete vehicle',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }

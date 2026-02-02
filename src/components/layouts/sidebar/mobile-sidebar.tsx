@@ -101,7 +101,7 @@ const MobileSidebar = () => {
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 overflow-y-auto py-4 px-4">
+      <nav className="flex-1 overflow-y-auto py-4 px-4 sidebar-scroll pr-2">
         {MENU_STRUCTURE.map((section, sectionIndex) => (
           <React.Fragment key={section.group || `section-${sectionIndex}`}>
             {section.group ? (
@@ -115,7 +115,7 @@ const MobileSidebar = () => {
               <MenuItem
                 key={item.label}
                 icon={<item.icon size={22} />}
-                label={(item.labelKey && (t?.sidebar?.items as any)?.[item.labelKey]) || item.label}
+                label={(item.labelKey && t?.[item.labelKey as keyof typeof t] as string) || item.label}
                 href={item.href}
                 isActive={pathname === item.href}
                 isDisabled={item.isDisabled}

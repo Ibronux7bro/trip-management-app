@@ -8,15 +8,15 @@ import { Vehicle, VehicleType, VehicleStatus } from '@/types/vehicle';
 import { Driver, DriverStatus } from '@/types';
 
 // Database interfaces
-export interface DatabaseConfig {
+interface DatabaseConfig {
   type: 'mock' | 'local' | 'remote';
   name: string;
   version: number;
   autoBackup: boolean;
-  backupInterval: number; // in milliseconds
+  backupInterval: number; // in minutes
 }
 
-export interface DatabaseStats {
+interface DatabaseStats {
   orders: number;
   vehicles: number;
   drivers: number;

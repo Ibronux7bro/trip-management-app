@@ -30,7 +30,6 @@ import {
   Truck,
   Package
 } from 'lucide-react';
-import { useTranslation } from '@/app/providers/translation-provider';
 
 export default function DatabaseManager() {
   const { t, isRTL } = useTranslation();
